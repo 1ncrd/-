@@ -41,7 +41,7 @@ mod = c % n
 
 def test(i, j):
     for k in range(i, j):
-        res, is_exact = gmpy2.iroot(k * n + mod, 3)
+        res, is_exact = gmpy2.iroot(k * n + mod, e)
         if is_exact:
             print(f'k = {k}\nres = {res}')
             break
