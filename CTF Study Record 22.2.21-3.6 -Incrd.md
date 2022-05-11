@@ -522,6 +522,8 @@ $=c^r * c^{k(p-1)}\ mod\ p$
 $c^d\ mod\ p=c^r\ mod\ p$  
 r 是 d 除 p-1 的余数，即 r = d mod (p-1)  
 所以 $c^d\ mod\ p$可以降阶为 $c^{(d\ mod\ p-1)}\ mod\ p$  
+即  
+$c^{dp}\equiv c^d\  mod\ p$
 ___
 回过头看题，`d > 2 * N ** gama`，无法使用 Boneh and Durfee Attack。  
 具体原理是利⽤题⾯条件给出等式：$ed_pq = (k − 1)(N − q) + N$, 因此双变 量多项式 $f(x, y) = x(N − y) + N$ mod e 有⼩根 $(k-1, q)$，使⽤coppersmith attack就能给出解了。（这段话我还需要亿点时间去理解）
