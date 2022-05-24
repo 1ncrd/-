@@ -1,4 +1,4 @@
-# [MRCTF2020]easy_RSA
+# [MRCTF 2020]easy_RSA
 
 task
 
