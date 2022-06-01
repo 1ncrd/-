@@ -13,10 +13,11 @@ LLL 算法：<https://zhuanlan.zhihu.com/p/269524920>
 观察题目很容易得知，这是一个 N = 85 的 LWE 搜索问题，其目前可知的方法应该是只有 LLL 算法。  
 根据 $\vec{b}=Ax+\vec{e}$  
 其中 $\vec{e}$ 即为一个很小的误差向量  
-构造一个 (n+1) * (n+1)矩阵 $\begin{pmatrix}
-A&0\\
+构造一个 (n+1) * (n+1)矩阵  
+$$\begin{pmatrix}
+A&E\\
 b&0
-\end{pmatrix}$  
+\end{pmatrix}$$  
 由于向量维度和大小较小，可以应用 LLL 算法找出最短向量 $\vec{e}$  
 sage 中 Matrix 的 LLL 方法已经集成了相关功能，直接使用即可。
 
