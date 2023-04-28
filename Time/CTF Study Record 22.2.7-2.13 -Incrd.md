@@ -6,7 +6,7 @@
 <https://cr.yp.to/salsa20.html>  
 <https://cr.yp.to/snuffle/salsafamily-20071225.pdf>
 
-Salsa20是一种流式对称加密算法，类似于Chacha20，算法性能相比AES能够快3倍以上。
+Salsa20是一种流式对称加密算法（流密码），类似于Chacha20，算法性能相比AES能够快3倍以上。
 Salsa20算法通过将 32 Byte 的key和 8 Byte 的随机数nonce扩展为 2^70 Byte 的随机字节流，通过随机字节流和异或操作实现加解密，因此 Salsa20 算法中随机字节流的生成为关键所在。  
 
 加解密操作

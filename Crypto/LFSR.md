@@ -6,7 +6,7 @@ $$a_{i+n}=\sum_{j=1}^nc_ja_{i+n-j}$$
 
 例
 
-```py
+```py3
 def lfsr(R, mask):
     output = (R << 1) & 0xf
     i = (R & mask) & 0xf
@@ -35,13 +35,16 @@ print(output)
 下面介绍在已知了 n 位的输出以及 MASK 的情况下如何逆推出 lfsr 的初始状态。  
 考虑第 n 次生成输出比特的情形。  
 此处用 c 表示除初始状态外的比特位。  
+
 $statu:a_nc_0c_1...c_{n-1}$  
 $output=c_n=a_n\oplus c_0\oplus c_1\oplus ...\oplus c_{n-1}$  
+
 此时我们可以通过计算 $c_n\oplus c_0\oplus c_1\oplus ...\oplus c_{n-1}$ 即可得到 $a_n$  
 通过这种方法向前逆推即可。  
 试验代码
 
-```py
+
+```py3
 def lfsr(R, mask):
     output = (R << 1) & 0xf
     i = (R & mask) & 0xf
@@ -83,7 +86,7 @@ initial status : 1010
 成功还原。
 通用 exp:
 
-```py
+```py3
 def inverse_lfsr(out, mask):
     out = out[::-1]
     mask = mask[::-1]
@@ -104,7 +107,7 @@ def inverse_lfsr(out, mask):
 
 如果已知至少2n位的密钥流，但不知道抽头序列（MASK），则即为KPA问题，因为只要把前 n 个 bit $(a_1,\dots,a_n)$看成原本状态，则对后 n 个 bit $(b_1, \dots, b_n)$ 均有 $(b_i = \sum_{i=1}^{n}a_i\&p_i)$，$p_i$即为抽头序列，有 n 个这样的表达式，即为解 n 元一次方程，故而一定有解，通用 exp 如下
 
-```py
+```py3
 def inverse_lfsr(out, mask):
     out = out[::-1]
     mask = mask[::-1]

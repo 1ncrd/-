@@ -164,7 +164,7 @@ import binascii
 import numpy as np
 from PIL import Image
 
-image =Image.open(r'D:\Operator\Download\HGAME\Dancing Line.bmp').convert('RGB')
+image = Image.open(r'D:\Operator\Download\HGAME\Dancing Line.bmp').convert('RGB')
 image_width = image.width
 image_height = image.height
 image_array = np.array(image)

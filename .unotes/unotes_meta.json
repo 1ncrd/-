@@ -1,0 +1,54 @@
+{
+  "name": "",
+  "isOrdered": true,
+  "folders": {
+    "Crypto": {
+      "name": "Crypto",
+      "isOrdered": true,
+      "folders": {},
+      "files": {
+        "HNP 问题": 0,
+        "ECDSA 入门": 1,
+        "Inverse": 2,
+        "Lattice": 3,
+        "LFSR": 4
+      }
+    },
+    "Crypto WP": {
+      "name": "Crypto WP",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    },
+    "General": {
+      "name": "General",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    },
+    "Time": {
+      "name": "Time",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    },
+    "Web": {
+      "name": "Web",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    },
+    "Web WP": {
+      "name": "Web WP",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    }
+  },
+  "files": {
+    "README": 0,
+    "CISCN2022-Crypto": 1,
+    "Temp": 2,
+    "WP": 3
+  }
+}

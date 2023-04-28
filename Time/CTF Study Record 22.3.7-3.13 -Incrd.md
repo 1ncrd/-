@@ -103,7 +103,7 @@ f = (x + r2h) - (a*(r1h + y)^2 + c)
 print(small_roots(f, [2^146, 2^146], m=3, d=6))
 ```
 
-类似于 RSA 高位攻击的思想。  
+类似于 RSA 高位攻击的思想。
 第二步就是解一个有限域的一元二次方程，直接用 PolynomialRing(Zmod(p)) 的 roots() 方法即可。
 完整 exp
 
@@ -214,7 +214,7 @@ def lfsr_CopiedfromInternet(R,mask):
     while i != 0:
         lastbit ^= (i & 1)
         i = i>>1
-        
+  
     output ^= lastbit
     return (output,lastbit)
 
@@ -236,27 +236,27 @@ f.close()
 #Can you help me debug my code? QAQ
 ```
 
-这题实际可以转化为一个有 70 条等式，最多64个未知数的方程组问题，并且是在 (mod 2) 意义下的。  
-设  
-$message = m_0m_1...m_{63}$  
-$mask = k_0k_1...k_{63}$  
-$standardResult = c_0c_1...c_{63}$  
+这题实际可以转化为一个有 70 条等式，最多64个未知数的方程组问题，并且是在 (mod 2) 意义下的。
+设
+$message = m_0m_1...m_{63}$
+$mask = k_0k_1...k_{63}$
+$standardResult = c_0c_1...c_{63}$
 $myResult = y_0y_1...y_{63}$
 
-根据 `lfsr_CopiedfromInternet`，有如下等式(均为 $mod\ 2$ 意义下)  
-$c_0 = m_0k_0 + m_1k_1 + ... + m_{63}k_{63}$  
-$c_1 = m_1k_0 + m_2k_1 + ... + m_{63}k_{62} + c_0k_{63}$  
-$=m_0k_0k_{63}+m_1(k_0+k_1k_{63})+m_2(k_1+k_2k_{63})+...+m_{63}(k_{62}+k_{63}k_{63})$  
-以此类推  
+根据 `lfsr_CopiedfromInternet`，有如下等式(均为 $mod\ 2$ 意义下)
+$c_0 = m_0k_0 + m_1k_1 + ... + m_{63}k_{63}$
+$c_1 = m_1k_0 + m_2k_1 + ... + m_{63}k_{62} + c_0k_{63}$
+$=m_0k_0k_{63}+m_1(k_0+k_1k_{63})+m_2(k_1+k_2k_{63})+...+m_{63}(k_{62}+k_{63}k_{63})$
+以此类推
 
-同理根据 `lfsr_MyCode`，有  
-$y_0=m_0+k_0+m_1+k_1+...+m_{63}+k_{63}$  
-$=m_0+m_1+...+m_{63}$  
-`mask` 中 1 的个数为偶数，故 k 均可以省去。  
-$y_1=m_1+m_2+...m_{63}+y_0$  
-$=m_0+2m_1+2m_2+...2m_{63}$  
-以此类推  
-然后构造一个矩阵方程即可，由于方程组的单个方程间有较明显的规律，可以进行如下构造。  
+同理根据 `lfsr_MyCode`，有
+$y_0=m_0+k_0+m_1+k_1+...+m_{63}+k_{63}$
+$=m_0+m_1+...+m_{63}$
+`mask` 中 1 的个数为偶数，故 k 均可以省去。
+$y_1=m_1+m_2+...m_{63}+y_0$
+$=m_0+2m_1+2m_2+...2m_{63}$
+以此类推
+然后构造一个矩阵方程即可，由于方程组的单个方程间有较明显的规律，可以进行如下构造。
 
 ```python
 T1 = matrix(GF(2),64,64)
@@ -270,9 +270,11 @@ E1 = T1^64
 E2 = T2^64
 ```
 
-由 `lfsr_MyCode` 得出的等式中，未知数前的系数均为 1，故有语句 `T2[-1] = [1]*64`。  
+由 `lfsr_MyCode` 得出的等式中，未知数前的系数均为 1，故有语句 `T2[-1] = [1]*64`。
 给出一个例子帮助理解迭代的正确性，即 $T1 *T1$。
-$\begin{pmatrix}
+
+$$
+\begin{pmatrix}
 0&1&0\\
 0&0&1\\
 k_0&k_1&k_2\\
@@ -287,8 +289,17 @@ k_0&k_1&k_2\\
 \begin{pmatrix}k_0&k_1&k_2\end{pmatrix}\\
 \begin{pmatrix}0&k_1&k_2\end{pmatrix}+
 k_2*\begin{pmatrix}k_0&k_1&k_2\end{pmatrix}\\
-\end{pmatrix}$  
-可见矩阵构造符合条件。  
+\end{pmatrix}
+
+$$
+
+可见矩阵构造符合条件。
+
+$$
+
+
+
+$$
 
 综上写出 exp
 
@@ -321,66 +332,75 @@ print(int.to_bytes(int(flag),8,'big'))
 ## D^3CTF equivalent
 
 考点: equivalent key attack.
-本题基于论文：[基于子集和问题的公钥密码系统等效密钥攻击](https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/iet-ifs.2018.0041)  
-通读代码得知要找出满足以下条件的密钥：
+本题基于论文：[基于子集和问题的公钥密码系统等效密钥攻击](https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/iet-ifs.2018.0041)通读代码得知要找出满足以下条件的密钥：
 
 1. $a_i=es_i\ mod\ p$
 2. $e, p$ 互质即 $gcd(e, p) = 1$
 3. $p > sum(s_i)$
 4. $s_i$ 均为正奇数
 
-下面复现论文中的算法，别问原理（~~因为看不懂~~）。  
+下面复现论文中的算法，别问原理（~~因为看不懂~~）。
 
-1. 设 $\vec{a}=e\vec{s}+p\vec{k}$  
-$\vec{a}=\begin{pmatrix}
-a_1\\
-a_2\\
-\dots\\
-a_n
-\end{pmatrix}$
-$\vec{s}=\begin{pmatrix}
-s_1\\
-s_2\\
-\dots\\
-s_n
-\end{pmatrix}$
-$\vec{k}=\begin{pmatrix}
-k_1\\
-k_2\\
-\dots\\
-k_n
-\end{pmatrix}$  
+1. 设 $\vec{a}=e\vec{s}+p\vec{k}$
+
+   $$
+   \vec{a}=\begin{pmatrix}
+   a_1\\
+   a_2\\
+   \dots\\
+   a_n
+   \end{pmatrix}
+
+
+   \vec{s}=\begin{pmatrix}
+   s_1\\
+   s_2\\
+   \dots\\
+   s_n
+   \end{pmatrix}
+
+
+   \vec{k}=\begin{pmatrix}
+   k_1\\
+   k_2\\
+   \dots\\
+   k_n
+   \end{pmatrix}
+
+   $$
 2. 计算正交格 $\mathscr{L}^{\perp}(a) = \mathscr{L}(t_1,t_2\dots,t_ {n})$，其中 $\mathscr{L}^{\perp}(a)$ 即为正交化后的矩阵的核(kernel)。
-    sage:
+   sage:
 
-    ```python
-    def orthogonal_lattice(B):
-        '''
-        计算正交格
-        '''
-        LB = B.transpose().left_kernel(basis="LLL").basis_matrix()
-        return LB
-    ```
-
+   ```python
+   def orthogonal_lattice(B):
+       '''
+       计算正交格
+       '''
+       LB = B.transpose().left_kernel(basis="LLL").basis_matrix()
+       return LB
+   ```
 3. 计算 $\mathscr{L}(t_1,t_2\dots,t_{n-2})$ 的正交格，记为$\mathscr{L}^{\perp}_1=\mathscr{L}(u_1,u_2)$，$\mathscr{L}(u_1,u_2)$ 即为包含 $\vec{s},\vec{k}$ 的格。
 4. 令 $\vec{s}=x_1u_1+x_2u_2,k=y_1u_1+y_2u_2,x_i,y_i\in Z,i=1,2.枚举|x_i|,|y_i|<\sqrt{N},i=1,2$
-5. 计算出 $e, p$，筛选条件  
+5. 计算出 $e, p$，筛选条件
+
    1. $e, p$ 互质即 $gcd(e, p) = 1$
    2. $p > sum(s_i)$
    3. $s_i$ 均为正奇数
 
-得出的 $e,p$ 即为等价的私钥。  
-但在本题中直接进行这样的穷举时间复杂度尚无法接受，我跑了十几分钟也没有出来，因此需要一些优化。  
+得出的 $e,p$ 即为等价的私钥。
+但在本题中直接进行这样的穷举时间复杂度尚无法接受，我跑了十几分钟也没有出来，因此需要一些优化。
 
-观察 $\vec{s}=x_1u_1+x_2u_2$  
-有 $\vec{s}\ mod\ 2=(x_1\ mod\ 2)(u_1\ mod\ 2)+(x_2\ mod\ 2)(u_2\ mod\ 2)$ 此处 mod 对向量的每一维分量计算  
-由于 $s_i$ 均为正奇数，易知 $\vec{s} = (1,1,\dots,1)$  
-由此可解出 $x_1\ mod\ 2,\ x_2\ mod\ 2$，即得出了 $x_1$ 和 $x_2$ 的奇偶性用于提高穷举效率。  
-设 $\vec{a}=z_1\vec{u_1}+z_2\vec{u_2}$  
-可解出 $\begin{pmatrix}z_1&z_2\end{pmatrix}$  
-由 $a_i=es_i\ mod\ p$  
+观察 $\vec{s}=x_1u_1+x_2u_2$
+有 $\vec{s}\ mod\ 2=(x_1\ mod\ 2)(u_1\ mod\ 2)+(x_2\ mod\ 2)(u_2\ mod\ 2)$ 此处 mod 对向量的每一维分量计算
+由于 $s_i$ 均为正奇数，易知 $\vec{s} = (1,1,\dots,1)$
+由此可解出 $x_1\ mod\ 2,\ x_2\ mod\ 2$，即得出了 $x_1$ 和 $x_2$ 的奇偶性用于提高穷举效率。
+设 $\vec{a}=z_1\vec{u_1}+z_2\vec{u_2}$
+可解出 $\begin{pmatrix}z_1&z_2\end{pmatrix}$
+由 $a_i=es_i\ mod\ p$
 得
-$\begin{pmatrix}
+
+$$
+\begin{pmatrix}
 e&p
 \end{pmatrix}
 \cdot
@@ -388,16 +408,25 @@ e&p
 x_1&x_2\\
 y_1&y_2
 \end{pmatrix}
-=\begin{pmatrix}z_1&z_2\end{pmatrix}$  
-穷举时依此解出 $e,p$(写完发现这一步没有优化，就当是对算法流程的解释吧)  
+=\begin{pmatrix}z_1&z_2\end{pmatrix}
 
-然后，由之前的步骤容易得出  
-$z_1=ex_1+py_1\Rightarrow p=z_1/y_1-ex_1/y_1$  
-$z_2=ex_2+py_2\Rightarrow p=z_2/y_2-ex_2/y_2$  
-其中 $p>e\gg a\gg z_i>z_i/y_i$  
-故 $x_1/y_1\approx x_2/y_2$  
-即 $x_1/x_2\approx y_1/y_2$  
-依次缩小枚举 $y_1,y_2$ 的范围。  
+$$
+
+穷举时依此解出 $e,p$(写完发现这一步没有优化，就当是对算法流程的解释吧)
+
+$$
+
+
+
+$$
+
+然后，由之前的步骤容易得出
+$z_1=ex_1+py_1\Rightarrow p=z_1/y_1-ex_1/y_1$
+$z_2=ex_2+py_2\Rightarrow p=z_2/y_2-ex_2/y_2$
+其中 $p>e\gg a\gg z_i>z_i/y_i$
+故 $x_1/y_1\approx x_2/y_2$
+即 $x_1/x_2\approx y_1/y_2$
+依次缩小枚举 $y_1,y_2$ 的范围。
 官方 exp 中将 $y_1/y_2$ 取为最靠近 $x_1/x_2$ 的连分数，虽然这确实满足 $x_1/x_2\approx y_1/y_2$，但我无从得知这样做取得正确的概率有多大，若根据实际 exp 的运行速度为50s 左右，且主要时间都花在枚举前的 LLL 求 left_kernel 上，所以估计这个概率还是比较大的。
 
 official exp:
