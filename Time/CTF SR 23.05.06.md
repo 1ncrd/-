@@ -1,4 +1,4 @@
-# CTF SR 23.5.6.md
+# CTF SR 23.05.06 - Incrd
 
 ## [CISCN 2022 西南] rsa
 
@@ -46,10 +46,15 @@ N  = 171686349223590807707311817401889979527418126821169120790001704347556308730
 
 `lcm = gmpy2.lcm(P-1, Q-1)`
 $$ lcm = (P-1)(Q-1)/gcd $$
+
 $$ \therefore lcm|(P-1)(Q-1) $$
+
 $$ (P-1)(Q-1) \approx PQ = N$$
+
 $$ (P-1)(Q-1) \approx N = k*lcm $$
+
 $$ N // lcm = 4 $$
+
 $$ (P-1)(Q-1) = 4* lcm $$
 
 solve
@@ -80,7 +85,9 @@ print(long_to_bytes(m))
 ## Legendre 理论
 
 Let $\xi$ be a positive real number. Suppose $gcd(a, b) = 1$ and
+
 $$ |\xi - \frac{a}{b}| < \frac{1}{2b^2} $$
+
 则对 $\xi$ 连分数展开可以得到某项 $a_i=\frac{a}{b} $
 
 ## [CISCN 2022 东北赛区] math 
@@ -164,6 +171,8 @@ crt 可求 $$\phi(n_1) \mod ea_2$$
 
 $$ |n_1-\phi(n_1)| = |(a_1b_1+1)(a_2b_2+1)-a_1b_1a_2b_2| = a_1b_1 + a_2b_2 + 1 \le 2^{513} $$
 
+$e, a_2$ 均为 256 bit 整数， $ea_2$ 为 512 位， 故穷举 $(\phi(n_1) \mod ea_2) + (n_1 // ea_2) * ea_2 - iea_2, i \in [0, 10]$
+
 ```py
 # sage
 from Crypto.Util.number import long_to_bytes
@@ -184,17 +193,15 @@ for i in tqdm(range(1, 211)):
     tmp = gmpy2.invert(k, e)
     res = (-1 * tmp) % e
     phi_ = crt(res, 0, e, a2)
-    bound = e * a2 // gmpy2.gcd(e, a2)  # lcm
-    phi1 = phi_ + (N1 // bound) * bound - 100 * bound  # phi1
+    mod = e * a2
+    phi1 = phi_ + (N1 // mod) * mod # phi1
 
-    for j in range(211):
+    for j in range(10):
+        phi1 -= mod
         if gmpy2.gcd(e, phi1) != 1:
-            phi1 += bound
             continue
         d1 = gmpy2.invert(e, phi1)
         flag = long_to_bytes(gmpy2.powmod(enc1, d1, N1))
-        if b"flag" in flag:
+        if b"flag{" in flag and b"}" in flag:
             print(flag)
-        phi1 += bound
-
 ```

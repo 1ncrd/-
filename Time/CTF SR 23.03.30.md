@@ -1,4 +1,4 @@
-# CTF SR 23.3.30
+# CTF SR 23.03.30
 
 ## Misc Bugku 1 和 0 的故事
 

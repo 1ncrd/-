@@ -1,4 +1,4 @@
-# CTF SR 23.3.30
+# CTF SR 23.03.30
 
 ## picoCTF GET aHEAD
 
